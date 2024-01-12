@@ -1,0 +1,23 @@
+.small-device-header-container {
+  background-color: #13131320;
+  height: 15vh;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.small-device-website-logo {
+  height: 27px;
+  width: 100px;
+}
+
+.small-device-header-button {
+  background-color: transparent;
+  border: 0px;
+  color: #ffffff;
+}
+
+.search-icon {
+  font-size: 22px;
+}
