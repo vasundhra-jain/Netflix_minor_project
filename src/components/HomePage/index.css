@@ -1,0 +1,13 @@
+.home-page-background {
+  background-color: #131313;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.home-page-heading {
+  color: #ffffff;
+  font-size: 16px;
+  margin: 0px;
+}

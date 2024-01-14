@@ -1,10 +1,7 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
-import Header from '../Header'
 import './index.css'
-import TrendingNow from '../TrendingNow'
-import ContactSection from '../ContactSection'
 import MovieSlider from '../MovieSlider'
 
 const apiStatusConstants = {
@@ -14,22 +11,22 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-class HomePage extends Component {
+class TrendingNow extends Component {
   state = {
-    originalsMovieList: [],
+    trendingMovieList: [],
     apiStatus: apiStatusConstants.initial,
   }
 
   componentDidMount() {
-    this.getOriginalsMovieData()
+    this.getTrendingMovieData()
   }
 
-  getOriginalsMovieData = async () => {
+  getTrendingMovieData = async () => {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl = 'https://apis.ccbp.in/movies-app/originals'
+    const apiUrl = 'https://apis.ccbp.in/movies-app/trending-movies'
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -47,7 +44,7 @@ class HomePage extends Component {
         posterPath: each.poster_path,
       }))
       this.setState({
-        originalsMovieList: updatedData,
+        trendingMovieList: updatedData,
         apiStatus: apiStatusConstants.success,
       })
     } else {
@@ -57,25 +54,11 @@ class HomePage extends Component {
     }
   }
 
-  renderPosterView = () => {
-    const {originalsMovieList} = this.state
-    const index = Math.ceil(Math.random() * originalsMovieList.length - 1)
-    const movie = originalsMovieList[index]
-    console.log(originalsMovieList)
-    return (
-      <div>
-        <h1>{movie.title}</h1>
-        <p>{movie.overview}</p>
-        <button type="button">Play</button>
-      </div>
-    )
-  }
-
-  renderOriginalsMovieView = () => {
-    const {originalsMovieList} = this.state
+  renderTrendingMovieView = () => {
+    const {trendingMovieList} = this.state
     return (
       <>
-        <MovieSlider moviesList={originalsMovieList} />
+        <MovieSlider moviesList={trendingMovieList} />
       </>
     )
   }
@@ -99,27 +82,12 @@ class HomePage extends Component {
     </div>
   )
 
-  renderPoster = () => {
+  renderTrending = () => {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderPosterView()
-      case apiStatusConstants.failure:
-        return this.renderFailureView()
-      case apiStatusConstants.inProgress:
-        return this.renderLoadingView()
-      default:
-        return null
-    }
-  }
-
-  renderOriginals = () => {
-    const {apiStatus} = this.state
-
-    switch (apiStatus) {
-      case apiStatusConstants.success:
-        return this.renderOriginalsMovieView()
+        return this.renderTrendingMovieView()
       case apiStatusConstants.failure:
         return this.renderFailureView()
       case apiStatusConstants.inProgress:
@@ -130,24 +98,8 @@ class HomePage extends Component {
   }
 
   render() {
-    return (
-      <div className="home-page-background">
-        <div>
-          <Header />
-          {this.renderPoster()}
-        </div>
-        <div>
-          <h1 className="home-page-heading">TrendingNow</h1>
-          <TrendingNow />
-        </div>
-        <div>
-          <h1 className="home-page-heading">Originals</h1>
-          {this.renderOriginals()}
-        </div>
-        <ContactSection />
-      </div>
-    )
+    return <>{this.renderTrending()}</>
   }
 }
 
-export default HomePage
+export default TrendingNow

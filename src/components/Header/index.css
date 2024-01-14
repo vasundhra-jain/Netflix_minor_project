@@ -1,7 +1,6 @@
 .small-device-header-container {
   background-color: #13131320;
-  height: 15vh;
-  padding: 10px;
+  height: 10vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,7 +11,11 @@
   width: 100px;
 }
 
-.small-device-header-button {
+.small-device-header-button-container {
+  display: flex;
+}
+
+.device-header-button {
   background-color: transparent;
   border: 0px;
   color: #ffffff;
@@ -20,4 +23,104 @@
 
 .search-icon {
   font-size: 22px;
+}
+
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  height: 30px;
+}
+
+.search-bar-input {
+  background-color: transparent;
+  border: 0px;
+  padding: 5px;
+  width: 130px;
+  outline: none;
+  cursor: pointer;
+}
+
+.device-header-button-extended {
+  background-color: #2c2b2b;
+  border: 0px;
+  color: #ffffff;
+  padding: 7px;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  width: 40px;
+  height: 30px;
+}
+
+.search-icon-extended {
+  font-size: 16px;
+}
+
+.small-device-extended-header-ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px;
+}
+
+.small-device-extended-header-links {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.small-device-extended-header-close-button {
+  background-color: transparent;
+  border: 0px;
+}
+
+.small-device-extended-header-close-icon {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.large-device-header-container {
+  display: none;
+}
+
+@media screen and (min-width: 576px) {
+  .small-device-header-container {
+    display: none;
+  }
+  .large-device-header-container {
+    display: flex;
+    padding: 20px;
+    background-color: #13131320;
+    height: 15vh;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .large-device-header-sub-container-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+  }
+
+  .large-device-header-sub-container-2 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 300px;
+  }
+
+  .large-device-website-logo {
+    width: 135px;
+    height: 39px;
+  }
+  .large-device-extended-header-links {
+    text-decoration: none;
+    color: #ffffff;
+  }
+  .large-device-profile-link {
+    margin-left: 15px;
+  }
 }

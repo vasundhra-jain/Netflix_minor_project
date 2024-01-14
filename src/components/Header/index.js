@@ -1,32 +1,170 @@
 import {Component} from 'react'
+import {Link} from 'react-router-dom'
 import {HiOutlineSearch} from 'react-icons/hi'
+import {IoMdCloseCircle} from 'react-icons/io'
 import './index.css'
 
 class Header extends Component {
+  state = {extend: false, showSearchBar: false}
+
+  extendSearchBar = () => {
+    this.setState({showSearchBar: true})
+  }
+
+  closeSearchBar = () => {
+    this.setState({showSearchBar: false})
+  }
+
+  extendHeader = () => {
+    this.setState({extend: true})
+  }
+
+  closeHeader = () => {
+    this.setState({extend: false})
+  }
+
   render() {
+    const {extend, showSearchBar} = this.state
     return (
-      <div className="small-device-header-container">
-        <img
-          src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
-          alt="website logo"
-          className="small-device-website-logo"
-        />
-        <div>
-          <button
-            type="button"
-            data-testid="searchButton"
-            className="small-device-header-button"
-          >
-            <HiOutlineSearch className="search-icon" />
-          </button>
-          <button type="button" className="small-device-header-button">
+      <>
+        <>
+          <div className="small-device-header-container">
             <img
-              src="https://res.cloudinary.com/dz6uvquma/image/upload/v1705071256/add-to-queue_1queue_gf7zng.svg"
-              alt="addToQueue"
+              src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
+              alt="website logo"
+              className="small-device-website-logo"
             />
-          </button>
-        </div>
-      </div>
+            <div className="small-device-header-button-container">
+              {showSearchBar ? (
+                <div className="search-bar-container">
+                  <input type="search" className="search-bar-input" />
+                  <button
+                    type="button"
+                    data-testid="searchButton"
+                    className="device-header-button-extended"
+                    onClick={this.closeSearchBar}
+                  >
+                    <HiOutlineSearch className="search-icon-extended" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  data-testid="searchButton"
+                  className="device-header-button"
+                  onClick={this.extendSearchBar}
+                >
+                  <HiOutlineSearch className="search-icon" />
+                </button>
+              )}
+
+              <button
+                type="button"
+                className="device-header-button"
+                onClick={this.extendHeader}
+              >
+                <img
+                  src="https://res.cloudinary.com/dz6uvquma/image/upload/v1705071256/add-to-queue_1queue_gf7zng.svg"
+                  alt="addToQueue"
+                />
+              </button>
+            </div>
+          </div>
+          {extend ? (
+            <div className="small-device-header-container">
+              <ul className="small-device-extended-header-ul">
+                <li>
+                  <Link to="/" className="small-device-extended-header-links">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/popular"
+                    className="small-device-extended-header-links"
+                  >
+                    Popular
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/account"
+                    className="small-device-extended-header-links"
+                  >
+                    Account
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    className="small-device-extended-header-close-button"
+                    onClick={this.closeHeader}
+                  >
+                    <IoMdCloseCircle className="small-device-extended-header-close-icon" />
+                  </button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            ''
+          )}
+        </>
+        <>
+          <div className="large-device-header-container">
+            <div className="large-device-header-sub-container-1">
+              <img
+                src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
+                alt="website logo"
+                className="large-device-website-logo"
+              />
+
+              <Link
+                to="/popular"
+                className="large-device-extended-header-links"
+              >
+                Popular
+              </Link>
+
+              <Link
+                to="/account"
+                className="small-device-extended-header-links"
+              >
+                Account
+              </Link>
+            </div>
+            <div className="large-device-header-sub-container-2">
+              {showSearchBar ? (
+                <div className="search-bar-container">
+                  <input type="search" className="search-bar-input" />
+                  <button
+                    type="button"
+                    data-testid="searchButton"
+                    className="device-header-button-extended"
+                    onClick={this.closeSearchBar}
+                  >
+                    <HiOutlineSearch className="search-icon-extended" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  data-testid="searchButton"
+                  className="device-header-button"
+                  onClick={this.extendSearchBar}
+                >
+                  <HiOutlineSearch className="search-icon" />
+                </button>
+              )}
+              <Link to="/profile" className="large-device-profile-link">
+                <img
+                  src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/Avatarperson_mxcqt1.png"
+                  alt="profile"
+                />
+              </Link>
+            </div>
+          </div>
+        </>
+      </>
     )
   }
 }

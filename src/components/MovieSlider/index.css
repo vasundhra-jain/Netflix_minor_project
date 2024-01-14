@@ -1,0 +1,36 @@
+.slider-container {
+  padding: 10px;
+}
+
+.slider-unordered-list-item {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.slider-list-item {
+  margin: 6px;
+}
+
+.slider-image-link {
+  text-decoration: none;
+}
+
+.slider-image {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.large-devices-slider-unordered-list-item {
+  display: none;
+}
+
+@media screen and (min-width: 576px) {
+  .slider-unordered-list-item {
+    display: none;
+  }
+
+  .large-devices-slider-unordered-list-item {
+    display: block;
+  }
+
+}
