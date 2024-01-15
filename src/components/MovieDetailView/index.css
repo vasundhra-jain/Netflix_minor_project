@@ -1,12 +1,8 @@
-.home-page-background {
+.detail-page-background {
   background-color: #131313;
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.slider-main-container {
-  padding: 20px;
 }
 
 .small-home-page-poster-container {
@@ -43,12 +39,6 @@
   width: 100px;
 }
 
-.home-page-heading {
-  color: #ffffff;
-  font-size: 16px;
-  margin: 0px;
-}
-
 .loader-container {
   display: flex;
   justify-content: center;
@@ -58,27 +48,9 @@
   margin: 15px;
 }
 
-.loader-container-2 {
-  height: 50vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
-  margin: 15px;
-}
 
 .failure-view-container {
   height: 30vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
-  margin: 15px;
-}
-
-.failure-view-container-2 {
-  height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

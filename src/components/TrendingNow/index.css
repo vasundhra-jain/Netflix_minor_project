@@ -1,0 +1,30 @@
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  height: 30vh;
+  margin: 15px;
+}
+
+.failure-view-container {
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  margin: 15px;
+}
+
+.failure-view-para {
+  color: #ffffff;
+}
+
+.failure-view-button {
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 10px;
+  border: 0px;
+  width: 100px;
+}

@@ -29,11 +29,13 @@ class Header extends Component {
       <>
         <>
           <div className="small-device-header-container">
-            <img
-              src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
-              alt="website logo"
-              className="small-device-website-logo"
-            />
+            <Link to="/">
+              <img
+                src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
+                alt="website logo"
+                className="small-device-website-logo"
+              />
+            </Link>
             <div className="small-device-header-button-container">
               {showSearchBar ? (
                 <div className="search-bar-container">
@@ -112,11 +114,13 @@ class Header extends Component {
         <>
           <div className="large-device-header-container">
             <div className="large-device-header-sub-container-1">
-              <img
-                src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
-                alt="website logo"
-                className="large-device-website-logo"
-              />
+              <Link to="/">
+                <img
+                  src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
+                  alt="website logo"
+                  className="large-device-website-logo"
+                />
+              </Link>
 
               <Link
                 to="/popular"

@@ -1,8 +1,10 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
+import {Link} from 'react-router-dom'
+import Header from '../Header'
+import ContactSection from '../ContactSection'
 import './index.css'
-import MovieSlider from '../MovieSlider'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -11,22 +13,41 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-class TrendingNow extends Component {
+const MovieItem = props => {
+  const {detail} = props
+  const {id, backdropPath, posterPath, title} = detail
+  return (
+    <>
+      <li className="small-devices-popular-list">
+        <Link to={`/movies/${id}`}>
+          <img src={posterPath} alt={title} className="popular-page-image" />
+        </Link>
+      </li>
+      <li className="large-devices-popular-list">
+        <Link to={`/movies/${id}`}>
+          <img src={backdropPath} alt={title} className="popular-page-image" />
+        </Link>
+      </li>
+    </>
+  )
+}
+
+class PopularPage extends Component {
   state = {
-    trendingMovieList: [],
+    popularMovieList: [],
     apiStatus: apiStatusConstants.initial,
   }
 
   componentDidMount() {
-    this.getTrendingMovieData()
+    this.getPopularMovieData()
   }
 
-  getTrendingMovieData = async () => {
+  getPopularMovieData = async () => {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl = 'https://apis.ccbp.in/movies-app/trending-movies'
+    const apiUrl = 'https://apis.ccbp.in/movies-app/popular-movies'
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -44,7 +65,7 @@ class TrendingNow extends Component {
         posterPath: each.poster_path,
       }))
       this.setState({
-        trendingMovieList: updatedData,
+        popularMovieList: updatedData,
         apiStatus: apiStatusConstants.success,
       })
     } else {
@@ -54,23 +75,27 @@ class TrendingNow extends Component {
     }
   }
 
-  renderTrendingMovieView = () => {
-    const {trendingMovieList} = this.state
+  renderPopularMoviesView = () => {
+    const {popularMovieList} = this.state
     return (
-      <>
-        <MovieSlider moviesList={trendingMovieList} />
-      </>
+      <div>
+        <ul className="popular-page-unordered-list">
+          {popularMovieList.map(each => (
+            <MovieItem detail={each} key={each.id} />
+          ))}
+        </ul>
+      </div>
     )
   }
 
   renderLoadingView = () => (
-    <div className="loader-container" testid="loader">
+    <div className="popular-loader-container" testid="loader">
       <Loader type="TailSpin" color="#D81F26" height={50} width={50} />
     </div>
   )
 
   renderFailureView = () => (
-    <div className="failure-view-container">
+    <div className="popular-failure-view-container">
       <img
         src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/alert-triangleerror_zmzmbl.png"
         alt="error"
@@ -80,7 +105,7 @@ class TrendingNow extends Component {
       </p>
       <button
         type="button"
-        onClick={this.getTrendingMovieData}
+        onClick={this.getPopularMovieData}
         className="failure-view-button"
       >
         Try Again
@@ -88,12 +113,12 @@ class TrendingNow extends Component {
     </div>
   )
 
-  renderTrending = () => {
+  renderPopularMovies = () => {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderTrendingMovieView()
+        return this.renderPopularMoviesView()
       case apiStatusConstants.failure:
         return this.renderFailureView()
       case apiStatusConstants.inProgress:
@@ -104,8 +129,14 @@ class TrendingNow extends Component {
   }
 
   render() {
-    return <>{this.renderTrending()}</>
+    return (
+      <div className="popular-page-background">
+        <Header />
+        {this.renderPopularMovies()}
+        <ContactSection />
+      </div>
+    )
   }
 }
 
-export default TrendingNow
+export default PopularPage

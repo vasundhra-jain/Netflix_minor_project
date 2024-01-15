@@ -2,10 +2,10 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import Header from '../Header'
-import './index.css'
 import TrendingNow from '../TrendingNow'
 import ContactSection from '../ContactSection'
 import MovieSlider from '../MovieSlider'
+import './index.css'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -18,6 +18,7 @@ class HomePage extends Component {
   state = {
     originalsMovieList: [],
     apiStatus: apiStatusConstants.initial,
+    toggleHeader: false,
   }
 
   componentDidMount() {
@@ -49,6 +50,7 @@ class HomePage extends Component {
       this.setState({
         originalsMovieList: updatedData,
         apiStatus: apiStatusConstants.success,
+        toggleHeader: true,
       })
     } else {
       this.setState({
@@ -61,13 +63,38 @@ class HomePage extends Component {
     const {originalsMovieList} = this.state
     const index = Math.ceil(Math.random() * originalsMovieList.length - 1)
     const movie = originalsMovieList[index]
-    console.log(originalsMovieList)
+    const poster = movie.posterPath
+    const image = movie.backdropPath
+    console.log(image)
     return (
-      <div>
-        <h1>{movie.title}</h1>
-        <p>{movie.overview}</p>
-        <button type="button">Play</button>
-      </div>
+      <>
+        <div
+          style={{backgroundImage: `url(${poster})`}}
+          className="small-home-page-poster-container"
+        >
+          <Header />
+          <div className="home-page-poster-content-container">
+            <h1 className="home-page-poster-content-heading">{movie.title}</h1>
+            <p className="home-page-poster-content-para">{movie.overview}</p>
+            <button type="button" className="home-page-poster-content-button">
+              Play
+            </button>
+          </div>
+        </div>
+        <div
+          style={{backgroundImage: `url(${image})`}}
+          className="large-home-page-poster-container"
+        >
+          <Header />
+          <div className="home-page-poster-content-container">
+            <h1 className="home-page-poster-content-heading">{movie.title}</h1>
+            <p className="home-page-poster-content-para">{movie.overview}</p>
+            <button type="button" className="home-page-poster-content-button">
+              Play
+            </button>
+          </div>
+        </div>
+      </>
     )
   }
 
@@ -86,14 +113,45 @@ class HomePage extends Component {
     </div>
   )
 
+  renderPosterLoadingView = () => (
+    <div className="loader-container-2" testid="loader">
+      <Loader type="TailSpin" color="#D81F26" height={50} width={50} />
+    </div>
+  )
+
   renderFailureView = () => (
-    <div>
+    <div className="failure-view-container">
       <img
         src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/alert-triangleerror_zmzmbl.png"
         alt="error"
       />
-      <p>Something went wrong. Please try again</p>
-      <button type="button" onClick={this.getOriginalsMovieData}>
+      <p className="failure-view-para">
+        Something went wrong. Please try again
+      </p>
+      <button
+        type="button"
+        className="failure-view-button"
+        onClick={this.getOriginalsMovieData}
+      >
+        Try Again
+      </button>
+    </div>
+  )
+
+  renderPosterFailureView = () => (
+    <div className="failure-view-container-2">
+      <img
+        src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/alert-triangleerror_zmzmbl.png"
+        alt="error"
+      />
+      <p className="failure-view-para">
+        Something went wrong. Please try again
+      </p>
+      <button
+        type="button"
+        className="failure-view-button"
+        onClick={this.getOriginalsMovieData}
+      >
         Try Again
       </button>
     </div>
@@ -106,9 +164,9 @@ class HomePage extends Component {
       case apiStatusConstants.success:
         return this.renderPosterView()
       case apiStatusConstants.failure:
-        return this.renderFailureView()
+        return this.renderPosterFailureView()
       case apiStatusConstants.inProgress:
-        return this.renderLoadingView()
+        return this.renderPosterLoadingView()
       default:
         return null
     }
@@ -130,17 +188,18 @@ class HomePage extends Component {
   }
 
   render() {
+    const {toggleHeader} = this.state
     return (
       <div className="home-page-background">
         <div>
-          <Header />
+          {toggleHeader ? '' : <Header />}
           {this.renderPoster()}
         </div>
-        <div>
+        <div className="slider-main-container">
           <h1 className="home-page-heading">TrendingNow</h1>
           <TrendingNow />
         </div>
-        <div>
+        <div className="slider-main-container">
           <h1 className="home-page-heading">Originals</h1>
           {this.renderOriginals()}
         </div>
