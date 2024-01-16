@@ -1,0 +1,65 @@
+.account-page-background {
+  background-color: #131313;
+}
+
+.account-page-content-container {
+  padding: 20px;
+  background-color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.account-page-heading {
+  font-weight: 500;
+}
+
+.account-page-detail-container {
+  display: flex;
+}
+
+.account-page-detail-heading {
+  color: #94a3b8;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.account-page-detail-password-para {
+  color: #64748b;
+}
+
+.account-page-detail-ultra-para {
+  color: #1e293b;
+  border: 1px solid #1e293b;
+  background-color: #ffffff;
+  padding: 2px;
+  margin-left: 3px;
+  font-size: 15px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.account-page-detail-para {
+  color: #1e293b;
+}
+
+.account-page-btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 25vh;
+}
+
+.account-page-btn {
+  background-color: #e50914;
+  color: #ffffff;
+  border: 0px;
+  padding: 10px;
+  width: 100px;
+}
+
+.mask-password {
+  border: 0px;
+  outline: none;
+}

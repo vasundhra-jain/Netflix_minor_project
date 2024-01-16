@@ -1,18 +1,15 @@
 import {Component} from 'react'
-import {Link} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import {HiOutlineSearch} from 'react-icons/hi'
 import {IoMdCloseCircle} from 'react-icons/io'
 import './index.css'
+import CredentialContext from '../../Context/CredentialContext'
 
 class Header extends Component {
-  state = {extend: false, showSearchBar: false}
+  state = {extend: false, showSearchBar: false, searchValue: ''}
 
   extendSearchBar = () => {
     this.setState({showSearchBar: true})
-  }
-
-  closeSearchBar = () => {
-    this.setState({showSearchBar: false})
   }
 
   extendHeader = () => {
@@ -23,8 +20,18 @@ class Header extends Component {
     this.setState({extend: false})
   }
 
-  render() {
-    const {extend, showSearchBar} = this.state
+  changeValue = event => {
+    this.setState({searchValue: event.target.value})
+  }
+
+  showSearchResults = () => {
+    const {history} = this.props
+    history.push('/search')
+  }
+
+  renderHeader = () => {
+    const {extend, showSearchBar, searchValue} = this.state
+
     return (
       <>
         <>
@@ -39,12 +46,17 @@ class Header extends Component {
             <div className="small-device-header-button-container">
               {showSearchBar ? (
                 <div className="search-bar-container">
-                  <input type="search" className="search-bar-input" />
+                  <input
+                    type="search"
+                    className="search-bar-input"
+                    onChange={this.changeValue}
+                    value={searchValue}
+                  />
                   <button
                     type="button"
                     data-testid="searchButton"
                     className="device-header-button-extended"
-                    onClick={this.closeSearchBar}
+                    onClick={this.showSearchResults}
                   >
                     <HiOutlineSearch className="search-icon-extended" />
                   </button>
@@ -139,12 +151,17 @@ class Header extends Component {
             <div className="large-device-header-sub-container-2">
               {showSearchBar ? (
                 <div className="search-bar-container">
-                  <input type="search" className="search-bar-input" />
+                  <input
+                    type="search"
+                    className="search-bar-input"
+                    onChange={this.changeValue}
+                    value={searchValue}
+                  />
                   <button
                     type="button"
                     data-testid="searchButton"
                     className="device-header-button-extended"
-                    onClick={this.closeSearchBar}
+                    onClick={this.showSearchResults}
                   >
                     <HiOutlineSearch className="search-icon-extended" />
                   </button>
@@ -171,6 +188,10 @@ class Header extends Component {
       </>
     )
   }
+
+  render() {
+    return <>{this.renderHeader()}</>
+  }
 }
 
-export default Header
+export default withRouter(Header)

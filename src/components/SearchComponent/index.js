@@ -2,9 +2,10 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import {Link} from 'react-router-dom'
+import './index.css'
 import Header from '../Header'
 import ContactSection from '../ContactSection'
-import './index.css'
+import CredentialContext from '../../Context/CredentialContext'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -15,39 +16,48 @@ const apiStatusConstants = {
 
 const MovieItem = props => {
   const {detail} = props
-  const {id, backdropPath, posterPath, title} = detail
   return (
     <>
       <li className="small-devices-popular-list">
-        <Link to={`/movie/${id}`}>
-          <img src={posterPath} alt={title} className="popular-page-image" />
+        <Link to={`/movie/${detail.id}`}>
+          <img
+            src={detail.poster_path}
+            alt={detail.title}
+            className="popular-page-image"
+          />
         </Link>
       </li>
       <li className="large-devices-popular-list">
-        <Link to={`/movie/${id}`}>
-          <img src={backdropPath} alt={title} className="popular-page-image" />
+        <Link to={`/movie/${detail.id}`}>
+          <img
+            src={detail.backdrop_path}
+            alt={detail.title}
+            className="popular-page-image"
+          />
         </Link>
       </li>
     </>
   )
 }
 
-class PopularPage extends Component {
+class SearchComponent extends Component {
   state = {
-    popularMovieList: [],
+    searchList: '',
     apiStatus: apiStatusConstants.initial,
+    searchText: '',
   }
 
   componentDidMount() {
-    this.getPopularMovieData()
+    this.getSearchResults()
   }
 
-  getPopularMovieData = async () => {
+  getSearchResults = async () => {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
+    const {searchText} = this.state
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl = 'https://apis.ccbp.in/movies-app/popular-movies'
+    const apiUrl = `https://apis.ccbp.in/movies-app/movies-search?search=${searchText}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -57,15 +67,12 @@ class PopularPage extends Component {
     const response = await fetch(apiUrl, options)
     if (response.ok) {
       const fetchedData = await response.json()
-      const updatedData = fetchedData.results.map(each => ({
-        id: each.id,
-        title: each.title,
-        overview: each.overview,
-        backdropPath: each.backdrop_path,
-        posterPath: each.poster_path,
-      }))
+      const updatedData = {
+        results: fetchedData.results,
+        total: fetchedData.total,
+      }
       this.setState({
-        popularMovieList: updatedData,
+        searchList: updatedData,
         apiStatus: apiStatusConstants.success,
       })
     } else {
@@ -75,12 +82,13 @@ class PopularPage extends Component {
     }
   }
 
-  renderPopularMoviesView = () => {
-    const {popularMovieList} = this.state
+  renderSearchResultsView = () => {
+    const {searchList} = this.state
+    const {results, total} = searchList
     return (
       <div>
         <ul className="popular-page-unordered-list">
-          {popularMovieList.map(each => (
+          {results.map(each => (
             <MovieItem detail={each} key={each.id} />
           ))}
         </ul>
@@ -89,13 +97,13 @@ class PopularPage extends Component {
   }
 
   renderLoadingView = () => (
-    <div className="popular-loader-container" testid="loader">
+    <div className="loader-container" testid="loader">
       <Loader type="TailSpin" color="#D81F26" height={50} width={50} />
     </div>
   )
 
   renderFailureView = () => (
-    <div className="popular-failure-view-container">
+    <div className="failure-view-container">
       <img
         src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/alert-triangleerror_zmzmbl.png"
         alt="error"
@@ -105,7 +113,7 @@ class PopularPage extends Component {
       </p>
       <button
         type="button"
-        onClick={this.getPopularMovieData}
+        onClick={this.getSearchResults}
         className="failure-view-button"
       >
         Try Again
@@ -113,12 +121,12 @@ class PopularPage extends Component {
     </div>
   )
 
-  renderPopularMovies = () => {
+  renderSearchResults = () => {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderPopularMoviesView()
+        return this.renderSearchResultsView()
       case apiStatusConstants.failure:
         return this.renderFailureView()
       case apiStatusConstants.inProgress:
@@ -130,13 +138,13 @@ class PopularPage extends Component {
 
   render() {
     return (
-      <div className="popular-page-background">
+      <>
         <Header />
-        {this.renderPopularMovies()}
+        {this.renderSearchResults()}
         <ContactSection />
-      </div>
+      </>
     )
   }
 }
 
-export default PopularPage
+export default SearchComponent

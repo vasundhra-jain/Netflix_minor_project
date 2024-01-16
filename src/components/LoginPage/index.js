@@ -2,6 +2,7 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import {Redirect} from 'react-router-dom'
 import './index.css'
+import CredentialContext from '../../Context/CredentialContext'
 
 class LoginPage extends Component {
   state = {
@@ -50,56 +51,75 @@ class LoginPage extends Component {
     }
   }
 
-  renderForm = () => {
-    const {showSubmitError, errorMsg, username, password} = this.state
-    return (
-      <div className="login-page">
-        <img
-          src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
-          alt="login website logo"
-          className="login-website-logo"
-        />
-        <div className="login-page-form-container">
-          <form onSubmit={this.submitForm} className="login-page-form">
-            <h1 className="login-page-heading">Login</h1>
-            <div className="login-page-credential-container">
-              <label htmlFor="username" className="login-page-label">
-                USERNAME
-              </label>
-              <input
-                type="text"
-                id="username"
-                className="login-page-input"
-                onChange={this.onChangeUsername}
-                placeholder="Username"
-                value={username}
-              />
+  renderForm = () => (
+    <CredentialContext.Consumer>
+      {value => {
+        const {setCredential} = value
+        const {showSubmitError, errorMsg, username, password} = this.state
+        const setCredentials = () => {
+          setCredential(username, password)
+        }
+
+        return (
+          <div className="login-page">
+            <img
+              src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/app_logo_bsm8pk.png"
+              alt="login website logo"
+              className="login-website-logo"
+            />
+            <div className="login-page-form-container">
+              <form onSubmit={this.submitForm} className="login-page-form">
+                <h1 className="login-page-heading">Login</h1>
+                <div className="login-page-credential-container">
+                  <label htmlFor="username" className="login-page-label">
+                    USERNAME
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    className="login-page-input"
+                    onChange={this.onChangeUsername}
+                    placeholder="Username"
+                    value={username}
+                  />
+                </div>
+                <div className="login-page-credential-container">
+                  <label htmlFor="password" className="login-page-label">
+                    PASSWORD
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    className="login-page-input"
+                    value={password}
+                    onChange={this.onChangePassword}
+                    placeholder="Password"
+                  />
+                </div>
+                {showSubmitError && (
+                  <p className="error-message">*{errorMsg}</p>
+                )}
+                <button
+                  type="submit"
+                  className="login-page-signIn-button"
+                  onClick={setCredentials}
+                >
+                  Sign in
+                </button>
+                <button
+                  type="submit"
+                  className="login-page-login-button"
+                  onClick={setCredentials}
+                >
+                  Login
+                </button>
+              </form>
             </div>
-            <div className="login-page-credential-container">
-              <label htmlFor="password" className="login-page-label">
-                PASSWORD
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="login-page-input"
-                value={password}
-                onChange={this.onChangePassword}
-                placeholder="Password"
-              />
-            </div>
-            {showSubmitError && <p className="error-message">*{errorMsg}</p>}
-            <button type="submit" className="login-page-signIn-button">
-              Sign in
-            </button>
-            <button type="submit" className="login-page-login-button">
-              Login
-            </button>
-          </form>
-        </div>
-      </div>
-    )
-  }
+          </div>
+        )
+      }}
+    </CredentialContext.Consumer>
+  )
 
   render() {
     const jwtToken = Cookies.get('jwt_token')

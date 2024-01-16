@@ -12,6 +12,67 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
+const SimilarMovie = props => {
+  const {details} = props
+  return (
+    <li>
+      <img
+        src={details.backdrop_path}
+        alt={details.title}
+        className="similar-movie-image"
+      />
+    </li>
+  )
+}
+
+const RenderDetails = props => {
+  const {details} = props
+  const {
+    genres,
+    spokenLanguages,
+    voteAverage,
+    voteCount,
+    budget,
+    releaseDate,
+  } = details
+  return (
+    <ul className="movie-details-unordered-list">
+      <li className="movie-details-list">
+        <p className="movie-details-heading">Genres</p>
+        <ul className="movie-details-para-unordered-list">
+          {genres.map(each => (
+            <li key={each.id}>
+              <p className="movie-details-para">{each.name}</p>
+            </li>
+          ))}
+        </ul>
+      </li>
+      <li className="movie-details-list">
+        <p className="movie-details-heading">Audio Available</p>
+        <ul className="movie-details-para-unordered-list">
+          {spokenLanguages.map(each => (
+            <li key={each.id}>
+              <p className="movie-details-para">{each.english_name}</p>
+            </li>
+          ))}
+        </ul>
+      </li>
+      <li className="movie-details-list">
+        <p className="movie-details-heading">Rating Count</p>
+        <p className="movie-details-para">{voteCount}</p>
+        <p className="movie-details-heading">Rating Average</p>
+        <p className="movie-details-para">{voteAverage}</p>
+      </li>
+      <li className="movie-details-list">
+        <p className="movie-details-heading">Budget</p>
+        <p className="movie-details-para">{budget}</p>
+        <p className="movie-details-heading">Release Date</p>
+        <p className="movie-details-para">{releaseDate}</p>
+      </li>
+    </ul>
+  )
+}
+
 class MovieDetailView extends Component {
   state = {
     movieDetails: [],
@@ -56,6 +117,9 @@ class MovieDetailView extends Component {
         overview: fetchedData.overview,
         backdropPath: fetchedData.backdrop_path,
         posterPath: fetchedData.poster_path,
+        budget: fetchedData.budget,
+        adult: fetchedData.adult,
+        genres: fetchedData.genres,
       }
       this.setState({
         movieDetails: updatedData,
@@ -71,7 +135,14 @@ class MovieDetailView extends Component {
 
   renderDetailView = () => {
     const {movieDetails} = this.state
-    const {posterPath, backdropPath, title, overview} = movieDetails
+    const {
+      posterPath,
+      backdropPath,
+      title,
+      overview,
+      id,
+      similarMovies,
+    } = movieDetails
     console.log(posterPath, backdropPath)
     return (
       <>
@@ -100,6 +171,15 @@ class MovieDetailView extends Component {
               Play
             </button>
           </div>
+        </div>
+        <div className="movie-detail-container">
+          <RenderDetails details={movieDetails} key={id} />
+          <h1 className="similar-movie-heading">More like this</h1>
+          <ul className="similar-movie-unordered-list">
+            {similarMovies.map(each => (
+              <SimilarMovie details={each} key={each.id} />
+            ))}
+          </ul>
         </div>
       </>
     )
@@ -130,7 +210,7 @@ class MovieDetailView extends Component {
     </div>
   )
 
-  renderPoster = () => {
+  renderMovieDetails = () => {
     const {apiStatus} = this.state
 
     switch (apiStatus) {
@@ -151,7 +231,7 @@ class MovieDetailView extends Component {
       <div className="detail-page-background">
         <div>
           {toggleHeader ? '' : <Header />}
-          {this.renderPoster()}
+          {this.renderMovieDetails()}
         </div>
         <ContactSection />
       </div>
