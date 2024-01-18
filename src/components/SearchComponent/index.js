@@ -48,8 +48,17 @@ class SearchComponent extends Component {
   }
 
   componentDidMount() {
-    this.getSearchResults()
+    this.getSearchValue()
   }
+
+  getSearchvalue = () => (
+    <CredentialContext.Consumer>
+      {value => {
+        const {searchValue} = value
+        this.setState({searchText: searchValue}, this.getSearchResults())
+      }}
+    </CredentialContext.Consumer>
+  )
 
   getSearchResults = async () => {
     this.setState({
@@ -138,11 +147,11 @@ class SearchComponent extends Component {
 
   render() {
     return (
-      <>
+      <div className="search-page-container">
         <Header />
         {this.renderSearchResults()}
         <ContactSection />
-      </>
+      </div>
     )
   }
 }
