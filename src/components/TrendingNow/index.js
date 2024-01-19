@@ -73,7 +73,7 @@ class TrendingNow extends Component {
     <div className="failure-view-container">
       <img
         src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/alert-triangleerror_zmzmbl.png"
-        alt="error"
+        alt="failure view"
       />
       <p className="failure-view-para">
         Something went wrong. Please try again

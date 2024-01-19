@@ -19,12 +19,12 @@ const MovieItem = props => {
   return (
     <>
       <li className="small-devices-popular-list">
-        <Link to={`/movie/${id}`}>
+        <Link to={`/movies/${id}`}>
           <img src={posterPath} alt={title} className="popular-page-image" />
         </Link>
       </li>
       <li className="large-devices-popular-list">
-        <Link to={`/movie/${id}`}>
+        <Link to={`/movies/${id}`}>
           <img src={backdropPath} alt={title} className="popular-page-image" />
         </Link>
       </li>

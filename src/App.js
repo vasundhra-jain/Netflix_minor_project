@@ -12,35 +12,33 @@ import CredentialContext from './Context/CredentialContext'
 import SearchComponent from './components/SearchComponent'
 
 class App extends Component {
-  state = {username: '', password: '', searchValue: ''}
+  state = {username: '', password: ''}
 
   setCredential = (username, password) => {
     this.setState({username})
     this.setState({password})
   }
 
-  setSearchValue = searchValue => {
-    this.setState({searchValue})
-  }
-
   render() {
-    const {username, password, searchValue} = this.state
+    const {username, password} = this.state
     console.log(username, password)
     return (
       <CredentialContext.Provider
         value={{
           username,
           password,
-          searchValue,
           setCredential: this.setCredential,
-          setSearchValue: this.setSearchValue,
         }}
       >
         <Switch>
           <Route exact path="/login" component={LoginPage} />
           <ProtectedRoute exact path="/" component={HomePage} />
           <ProtectedRoute exact path="/popular" component={PopularPage} />
-          <ProtectedRoute exact path="/movie/:id" component={MovieDetailView} />
+          <ProtectedRoute
+            exact
+            path="/movies/:id"
+            component={MovieDetailView}
+          />
           <ProtectedRoute exact path="/account" component={AccountPage} />
           <ProtectedRoute exact path="/search" component={SearchComponent} />
           <Route component={NotFound} />

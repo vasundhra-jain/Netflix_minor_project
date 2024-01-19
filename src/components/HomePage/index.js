@@ -75,7 +75,7 @@ class HomePage extends Component {
           <Header />
           <div className="home-page-poster-content-container">
             <h1 className="home-page-poster-content-heading">{movie.title}</h1>
-            <p className="home-page-poster-content-para">{movie.overview}</p>
+            <h1 className="home-page-poster-content-para">{movie.overview}</h1>
             <button type="button" className="home-page-poster-content-button">
               Play
             </button>
@@ -123,7 +123,7 @@ class HomePage extends Component {
     <div className="failure-view-container">
       <img
         src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993970/alert-triangleerror_zmzmbl.png"
-        alt="error"
+        alt="failure view"
       />
       <p className="failure-view-para">
         Something went wrong. Please try again
@@ -196,7 +196,7 @@ class HomePage extends Component {
           {this.renderPoster()}
         </div>
         <div className="slider-main-container">
-          <h1 className="home-page-heading">TrendingNow</h1>
+          <h1 className="home-page-heading">Trending Now</h1>
           <TrendingNow />
         </div>
         <div className="slider-main-container">

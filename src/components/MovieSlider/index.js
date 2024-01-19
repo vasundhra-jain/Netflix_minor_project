@@ -6,11 +6,11 @@ import './index.css'
 
 const MoviesItem = props => {
   const {detail} = props
-  const {backdropPath, title, id} = detail
+  const {posterPath, title, id} = detail
   return (
     <li className="slider-list-item">
-      <Link to={`/movie/${id}`} className="slider-image-link">
-        <img src={backdropPath} alt={title} className="slider-image" />
+      <Link to={`/movies/${id}`} className="slider-image-link">
+        <img src={posterPath} alt={title} className="slider-image" />
       </Link>
     </li>
   )

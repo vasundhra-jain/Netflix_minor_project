@@ -3,9 +3,8 @@ import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import {Link} from 'react-router-dom'
 import './index.css'
-import Header from '../Header'
 import ContactSection from '../ContactSection'
-import CredentialContext from '../../Context/CredentialContext'
+import Header from '../Header'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -19,7 +18,7 @@ const MovieItem = props => {
   return (
     <>
       <li className="small-devices-popular-list">
-        <Link to={`/movie/${detail.id}`}>
+        <Link to={`/movies/${detail.id}`}>
           <img
             src={detail.poster_path}
             alt={detail.title}
@@ -28,7 +27,7 @@ const MovieItem = props => {
         </Link>
       </li>
       <li className="large-devices-popular-list">
-        <Link to={`/movie/${detail.id}`}>
+        <Link to={`/movies/${detail.id}`}>
           <img
             src={detail.backdrop_path}
             alt={detail.title}
@@ -48,17 +47,8 @@ class SearchComponent extends Component {
   }
 
   componentDidMount() {
-    this.getSearchValue()
+    this.getSearchResults()
   }
-
-  getSearchvalue = () => (
-    <CredentialContext.Consumer>
-      {value => {
-        const {searchValue} = value
-        this.setState({searchText: searchValue}, this.getSearchResults())
-      }}
-    </CredentialContext.Consumer>
-  )
 
   getSearchResults = async () => {
     this.setState({
@@ -93,14 +83,28 @@ class SearchComponent extends Component {
 
   renderSearchResultsView = () => {
     const {searchList} = this.state
-    const {results, total} = searchList
+    const {searchText} = this.state
+    const {results} = searchList
+    const isEmpty = results.length === 0
     return (
-      <div>
-        <ul className="popular-page-unordered-list">
-          {results.map(each => (
-            <MovieItem detail={each} key={each.id} />
-          ))}
-        </ul>
+      <div className="search-result-container">
+        {isEmpty ? (
+          <>
+            <img
+              src="https://res.cloudinary.com/dz6uvquma/image/upload/v1704993953/Group_7394no-search-results_a1oxa7.png"
+              alt="no movies"
+            />
+            <p className="search-result-para">
+              Your search for {searchText} did not find any matches.
+            </p>
+          </>
+        ) : (
+          <ul className="popular-page-unordered-list">
+            {results.map(each => (
+              <MovieItem detail={each} key={each.id} />
+            ))}
+          </ul>
+        )}
       </div>
     )
   }
@@ -145,10 +149,19 @@ class SearchComponent extends Component {
     }
   }
 
+  searchInput = text => {
+    this.setState(
+      {
+        searchText: text,
+      },
+      this.getSearchResults,
+    )
+  }
+
   render() {
     return (
       <div className="search-page-container">
-        <Header />
+        <Header searchInput={this.searchInput} />
         {this.renderSearchResults()}
         <ContactSection />
       </div>
