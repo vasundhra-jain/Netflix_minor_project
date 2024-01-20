@@ -18,19 +18,5 @@
 .slider-image {
   width: 100%;
   border-radius: 8px;
-}
-
-.large-devices-slider-unordered-list-item {
-  display: none;
-}
-
-@media screen and (min-width: 576px) {
-  .slider-unordered-list-item {
-    display: none;
-  }
-
-  .large-devices-slider-unordered-list-item {
-    display: block;
-  }
-
+  height: 400px;
 }

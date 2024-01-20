@@ -1,4 +1,4 @@
-.small-device-header-container {
+.device-header-container {
   background-color: #13131320;
   height: 10vh;
   display: flex;
@@ -7,9 +7,18 @@
   padding: 20px;
 }
 
-.small-device-website-logo {
+.device-website-logo {
   height: 27px;
   width: 100px;
+}
+
+.header-container-1 {
+  display: flex;
+  align-items: center;
+}
+
+.extra-container {
+  display: none;
 }
 
 .small-device-header-button-container {
@@ -20,6 +29,16 @@
   background-color: transparent;
   border: 0px;
   color: #ffffff;
+}
+
+.device-header-extend-button {
+  background-color: transparent;
+  border: 0px;
+  color: #ffffff;
+}
+
+.large-device-profile-link {
+  display: none;
 }
 
 .search-icon {
@@ -69,9 +88,10 @@
   padding: 0px;
 }
 
-.small-device-extended-header-links {
+.device-extended-header-links {
   text-decoration: none;
   color: #ffffff;
+  margin: 5px;
 }
 
 .small-device-extended-header-close-button {
@@ -84,27 +104,19 @@
   font-size: 20px;
 }
 
-.large-device-header-container {
-  display: none;
-}
-
 @media screen and (min-width: 576px) {
-  .small-device-main-header-container {
+  .extra-container {
+    display: block;
+    display: flex;
+    align-items: center;
+  }
+
+  .device-header-extend-button {
     display: none;
   }
-  .large-device-header-container {
-    display: flex;
-    padding: 20px;
-    background-color: #13131320;
-    height: 15vh;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .large-device-header-sub-container-1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 300px;
+
+  .device-header-container{
+      height: 15vh;
   }
 
   .large-device-header-sub-container-2 {
@@ -114,15 +126,13 @@
     width: 300px;
   }
 
-  .large-device-website-logo {
+  .device-website-logo {
     width: 135px;
     height: 39px;
   }
-  .large-device-extended-header-links {
-    text-decoration: none;
-    color: #ffffff;
-  }
+
   .large-device-profile-link {
     margin-left: 15px;
+    display: block;
   }
 }

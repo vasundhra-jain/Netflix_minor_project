@@ -20,25 +20,38 @@ const MovieSlider = props => {
   const {moviesList} = props
   const settings = {
     dots: false,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-  }
-  const largeDevicesSettings = {
-    dots: false,
+    infinite: false,
+    speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   }
   return (
     <div className="slider-container">
       <ul className="slider-unordered-list-item">
         <Slider {...settings}>
-          {moviesList.map(each => (
-            <MoviesItem detail={each} key={each.id} />
-          ))}
-        </Slider>
-      </ul>
-      <ul className="large-devices-slider-unordered-list-item">
-        <Slider {...largeDevicesSettings}>
           {moviesList.map(each => (
             <MoviesItem detail={each} key={each.id} />
           ))}
